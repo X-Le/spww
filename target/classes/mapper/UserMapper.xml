@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spww.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.spww.entity.User" >
+    <id column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="ownerid" property="ownerid" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="salt" property="salt" jdbcType="VARCHAR" />
+    <result column="passwordhash" property="passwordhash" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userid, ownerid, name, salt, passwordhash
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where userid = #{userid,jdbcType=INTEGER}
+  </select>
+  <select id="getUser" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where userid = #{userid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.spww.entity.User" >
+    insert into user (userid, ownerid, name, 
+      salt, passwordhash)
+    values (#{userid,jdbcType=INTEGER}, #{ownerid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{salt,jdbcType=VARCHAR}, #{passwordhash,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.spww.entity.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userid,
+      </if>
+      <if test="ownerid != null" >
+        ownerid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="salt != null" >
+        salt,
+      </if>
+      <if test="passwordhash != null" >
+        passwordhash,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="ownerid != null" >
+        #{ownerid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordhash != null" >
+        #{passwordhash,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.spww.entity.User" >
+    update user
+    <set >
+      <if test="ownerid != null" >
+        ownerid = #{ownerid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null" >
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
+      <if test="passwordhash != null" >
+        passwordhash = #{passwordhash,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where userid = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.spww.entity.User" >
+    update user
+    set ownerid = #{ownerid,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      salt = #{salt,jdbcType=VARCHAR},
+      passwordhash = #{passwordhash,jdbcType=VARCHAR}
+    where userid = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>
